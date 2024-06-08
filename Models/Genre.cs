@@ -14,5 +14,17 @@ namespace PassionProject.Models
         public string Name { get; set; }
         public string Description { get; set; }
 
+        // many books can have the same genre
+        public ICollection<Book> Books { get; set; }
+
     }
+
+    public class GenreDto
+    {
+        [Key]
+        public int GenreId { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+    }
+
 }

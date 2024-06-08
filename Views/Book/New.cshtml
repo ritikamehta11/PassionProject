@@ -1,0 +1,29 @@
+﻿﻿@model IEnumerable<PassionProject.Models.BookDto>
+
+
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create Animal</h2>
+<form action="/Book/Create" method="POST">
+    <div>
+        <label>Title:</label> <input type="text" name="BookTitle" />
+    </div>
+    <div>
+        <label>Publication Year:</label> <input type="number" name="BookPY" />
+    </div>
+    <div>
+        <label>AuthorId:</label> <input type="number" name="AuthorID" />
+    </div>
+    <div>
+        <label>GenreId:</label> <input type="number" name="GenreID" />
+    </div>
+
+
+    <div>
+        <input type="submit" value="Add Book" />
+
+    </div>
+</form>
