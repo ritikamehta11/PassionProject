@@ -10,6 +10,7 @@ using System.Web.Http.Description;
 using System.Web.Routing;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Diagnostics;
 
 
 namespace PassionProject.Controllers
@@ -73,21 +74,63 @@ namespace PassionProject.Controllers
         // POST: api/BookData/AddBook
         [ResponseType(typeof(Book))]
         [HttpPost]
-        //[Route("api/BookData/AddBook")]
-        public IHttpActionResult AddBook(Book book) {
-            if (!ModelState.IsValid) {
-            return BadRequest(ModelState);
+        [Route("api/bookdata/addbook")]
+        public IHttpActionResult AddBook(Book book)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                Debug.WriteLine("Model state is invalid");
+                foreach (var modelState in ModelState.Values)
+                {
+                    foreach (var error in modelState.Errors)
+                    {
+                        Debug.WriteLine(error.ErrorMessage);
+                        if (error.Exception != null)
+                        {
+                            Debug.WriteLine(error.Exception.Message);
+                        }
+                    }
+                }
+                return BadRequest(ModelState);
             }
+            Debug.WriteLine("Entering AddBook method");
 
             db.Books.Add(book);
             db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = book.BookId }, book);
-            //return Ok(); 
+            Debug.WriteLine("Book added with ID: " + book.BookId);
+            return Ok(book);
+
+
+            //if (!ModelState.IsValid)
+            //{
+            //  Debug.WriteLine("Model state is invalid");
+            //foreach (var modelState in ModelState.Values)
+            //{
+            //  foreach (var error in modelState.Errors)
+            //{
+            //  Debug.WriteLine(error.ErrorMessage);
+            //if (error.Exception != null)
+            //{
+            //  Debug.WriteLine(error.Exception.Message);
+            //}
+            //}
+            // }
+            //   return BadRequest(ModelState);
+            //}
+
+            //db.Books.Add(book);
+            //db.SaveChanges();
+
+            //Debug.WriteLine("Book added with ID: " + book.BookId);
+            //return Ok();
+            // return CreatedAtRoute("DefaultApi", new { controller = "BookData", id = book.BookId }, book);
         }
 
+
         // POST : api/BookData/DeleteBook/{id}
-        
+
         [HttpGet]
         [Route("api/BookData/DeleteBook/{id}")]
         public IHttpActionResult DeleteBook(int id)
@@ -104,26 +147,40 @@ namespace PassionProject.Controllers
         }
 
 
-        //POST : api/BookData/UpdateBook
+
+
+
+
+
+
+
+
+
         [ResponseType(typeof(void))]
         [HttpPost]
-
-        public IHttpActionResult UpdateBook(int id, Book book) {
-
+        [Route("api/bookdata/updatebook/{id}")]
+        public IHttpActionResult UpdateBook(int id, Book  book)
+        {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            if(id != book.BookId)
+
+            if (id != book.BookId)
             {
 
                 return BadRequest();
             }
 
             db.Entry(book).State = EntityState.Modified;
+
+            
+            
             db.SaveChanges();
+            
             return StatusCode(HttpStatusCode.NoContent);
         }
+
 
 
 

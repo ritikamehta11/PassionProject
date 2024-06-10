@@ -50,13 +50,13 @@ namespace PassionProject.Controllers
 
 
         }
-
+         
         public ActionResult Create(Book book) {
             Debug.WriteLine("the json payload is :");
             //Debug.WriteLine(animal.AnimalName);
             //objective: add a new animal into our system using the API
             //curl -H "Content-Type:application/json" -d @animal.json https://localhost:44324/api/animaldata/addanimal 
-            string url = "bookdata/addbook";
+            string url = "https://localhost:44344/api/bookdata/addbook";
 
 
             string jsonpayload = jss.Serialize(book);

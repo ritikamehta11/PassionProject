@@ -35,14 +35,6 @@ namespace PassionProject.Models
         public int BookId { get; set; }
         public string Title { get; set; }
         public int PublicationYear { get; set; }
-
-        // [ForeignKey("Author")]
-        //public int AuthorId { get; set; }
-        //public virtual Author Author { get; set; }
-
-        //[ForeignKey("Genre")]
-        //public int GenreId { get; set; }
-        //public virtual Genre Genre { get; set; }
         public string Author { get; set; }
         public int AuthorId { get; set; }
 

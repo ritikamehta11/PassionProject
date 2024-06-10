@@ -1,6 +1,7 @@
-{
+{   
+    "BookId":15,
     "Title": "Sample Book",
     "PublicationYear": 2021,
-    "Author": "Author Name",
-    "Genre": "Fiction"
+    "AuthorId": 2,
+    "GenreId": 3
 }
