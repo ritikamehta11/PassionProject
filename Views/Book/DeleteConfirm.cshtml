@@ -1,0 +1,11 @@
+﻿@model PassionProject.Models.BookDto
+@{
+    ViewBag.Title = "DeleteConfirm";
+}
+
+<h2>Delete Book</h2>
+<h4>@Model.Title</h4>
+<p>@Model.PublicationYear</p>
+<form action="/book/delete/@Model.BookId" method="POST">
+    <input type="submit" value="Confirm Delete" />
+

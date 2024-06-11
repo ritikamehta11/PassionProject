@@ -259,6 +259,14 @@
     <Compile Include="Migrations\202406041752230_implicit-relationship.Designer.cs">
       <DependentUpon>202406041752230_implicit-relationship.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202406100500334_remove-methods.cs" />
+    <Compile Include="Migrations\202406100500334_remove-methods.Designer.cs">
+      <DependentUpon>202406100500334_remove-methods.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202406100704450_remake-db.cs" />
+    <Compile Include="Migrations\202406100704450_remake-db.Designer.cs">
+      <DependentUpon>202406100704450_remake-db.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Author.cs" />
@@ -343,6 +351,7 @@
     <Content Include="Views\Book\list.cshtml" />
     <Content Include="Views\Book\New.cshtml" />
     <Content Include="Views\Book\Show.cshtml" />
+    <Content Include="Views\Book\DeleteConfirm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -393,6 +402,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202406041752230_implicit-relationship.resx">
       <DependentUpon>202406041752230_implicit-relationship.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202406100500334_remove-methods.resx">
+      <DependentUpon>202406100500334_remove-methods.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202406100704450_remake-db.resx">
+      <DependentUpon>202406100704450_remake-db.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

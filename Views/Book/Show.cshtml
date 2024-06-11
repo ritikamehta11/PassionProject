@@ -6,6 +6,9 @@
 <h2>@Model.Title</h2>
 <p>Publication Year: @Model.PublicationYear</p>
 <p>
-    Author: @Model.Author
+    Author: @Model.Author.Name
+</p>
+<p>
+    <a href="@Url.Action("DeleteConfirm", "Book", new { id = Model.BookId })">Delete book</a>
 </p>
 

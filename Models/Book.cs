@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Web.Http;
+
 
 namespace PassionProject.Models
 {
@@ -11,8 +13,14 @@ namespace PassionProject.Models
     {   // things that define the book entity
         [Key]
         public int BookId { get; set; }
+
+
+        //Book details
         public string Title { get; set; }
         public int PublicationYear { get; set; }
+
+
+        //FOREIGN KEYS
 
         [ForeignKey("Author")]
         public int AuthorId { get; set; }
@@ -35,11 +43,9 @@ namespace PassionProject.Models
         public int BookId { get; set; }
         public string Title { get; set; }
         public int PublicationYear { get; set; }
-        public string Author { get; set; }
-        public int AuthorId { get; set; }
 
-        public string Genre { get; set; }
-        public int GenreId { get; set; }
+        public AuthorDto Author { get; set; } 
+        public GenreDto Genre { get; set; }
 
 
 

@@ -6,10 +6,10 @@
 }
 
 <h2>List</h2>
-<a href="/">New Book</a>
+<a href="./New">New Book</a>
 @foreach (var book in Model)
 {
-    <h2><a href="/Show/@book.BookId">@book.Title</a></h2>
+    <h2><a href="./Show/@book.BookId">@book.Title</a></h2>
     //<div>Publication Year: @book.PublicationYear</div>
     //<div>Author: @book.Author.</div>
 

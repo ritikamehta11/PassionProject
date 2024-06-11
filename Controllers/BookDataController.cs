@@ -20,39 +20,70 @@ namespace PassionProject.Controllers
 
         private ApplicationDbContext db = new ApplicationDbContext();
         /// <summary>
-        /// To list all the books in the library system
+        /// to list all the books in the library system
         /// </summary>
-        /// <returns>A list of books</returns>
-        // GET : api/BookData/ListBooks ->
-        // {"Title" : "Harry Potter and the Philosopher's Stone" , "Publication Year": 1997 , "Author":"J. K. Rowling" , "Genre" : "Fantasy"}
-        // {"Title" : "1984" , "Publication Year": 1948 , "Author":"George Orwell" , "Genre" : "Dystopian"}
-        // {"Title" : "Pride and Prejudice" , "Publication Year": 1813 , "Author":"Jane Austen" , "Genre" : "Romance"}
+        /// <returns>a list of books</returns>
+        // get : api/bookdata/listbooks ->
+        // {"title" : "harry potter and the philosopher's stone" , "publication year": 1997 , "author":"j. k. rowling" , "genre" : "fantasy"}
+        // {"title" : "1984" , "publication year": 1948 , "author":"george orwell" , "genre" : "dystopian"}
+        // {"title" : "pride and prejudice" , "publication year": 1813 , "author":"jane austen" , "genre" : "romance"}
 
         [HttpGet]
-        [Route("api/BookData/ListBooks")]
+        [Route("api/bookdata/listbooks")]
+     
         public List<BookDto> ListBooks()
         {
 
-            List<Book> booksList = db.Books.ToList();
-
+            List<Book> bookslist = db.Books.ToList();
             List<BookDto> bookdtos = new List<BookDto>();
-
-            foreach (Book Book in booksList) {
+            foreach (Book book in bookslist) {
             
-                BookDto bookDto = new BookDto();
-                bookDto.BookId = Book.BookId;
-                bookDto.Title = Book.Title;
-                bookDto.PublicationYear = Book.PublicationYear;
-                bookDto.Author = Book.Author.Name;
-                bookDto.Genre = Book.Genre.Name;
-                bookdtos.Add(bookDto);
+               BookDto bookdto = new BookDto();
+              bookdto.BookId = book.BookId;
+               bookdto.Title = book.Title;
+                bookdto.PublicationYear = book.PublicationYear;
+
+                if (book.Author != null)
+                {
+                    // Only access properties if Author is not null
+                    bookdto.Author = new AuthorDto
+                    {
+                        AuthorId = book.Author.AuthorId,
+                        Name = book.Author.Name,
+                        Bio = book.Author.Bio
+                    };
+                }
+
+                if (book.Genre != null)
+                {
+                    // Only access properties if Author is not null
+                    bookdto.Genre = new GenreDto
+                    {
+                        GenreId = book.Genre.GenreId,
+                        Name = book.Genre.Name,
+                        Description = book.Genre.Description,
+                    };
+                }
+
+
+                // bookdto.Genre.GenreId = book.GenreId;
+
+
+
+
+
+                bookdtos.Add(bookdto);
                
-            }
+    }
+   return bookdtos;
+}
 
-            return bookdtos;
-        }
 
-        // GET :api/BookData/FindBook/1
+        ///// <summary>
+        ///// To find a the book in the library system
+        ///// </summary>
+        ///// <returns>A book details</returns>
+        //// GET :api/BookData/FindBook/1
         [HttpGet]
         [Route("api/BookData/FindBook/{id}")]
         public IHttpActionResult FindBook( int id) {
@@ -64,13 +95,33 @@ namespace PassionProject.Controllers
             }
             bookdto.BookId = book.BookId;   
             bookdto.Title = book.Title;
-            bookdto.Author = book.Author.Name;
+           
             bookdto.PublicationYear= book.PublicationYear;
-            bookdto.Genre = book.Genre.Name;
+            bookdto.Author = new AuthorDto
+            {
+                AuthorId = book.Author.AuthorId,
+                Bio = book.Author.Bio,
+
+                Name = book.Author.Name
+
+            };
+
+            bookdto.Genre = new GenreDto
+            {
+                GenreId = book.Genre.GenreId,
+                Description = book.Genre.Description,
+                Name = book.Genre.Name
+
+            };
 
             return Ok(bookdto);
         }
 
+
+        /// <summary>
+        /// To add a book in the library system
+        /// </summary>
+        /// <returns>the list of books with the newly added book</returns>
         // POST: api/BookData/AddBook
         [ResponseType(typeof(Book))]
         [HttpPost]
@@ -97,6 +148,7 @@ namespace PassionProject.Controllers
             Debug.WriteLine("Entering AddBook method");
 
             db.Books.Add(book);
+            Debug.WriteLine(book.Title);
             db.SaveChanges();
 
             Debug.WriteLine("Book added with ID: " + book.BookId);
@@ -128,6 +180,11 @@ namespace PassionProject.Controllers
             // return CreatedAtRoute("DefaultApi", new { controller = "BookData", id = book.BookId }, book);
         }
 
+
+        /// <summary>
+        /// To deletea book from the library system
+        /// </summary>
+        /// <returns>list of books with a book removed</returns>
 
         // POST : api/BookData/DeleteBook/{id}
 

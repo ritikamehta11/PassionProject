@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
+using Antlr.Runtime;
 using PassionProject.Models;
 //using PassionProject.Models.ViewModels;
 
@@ -43,7 +44,7 @@ namespace PassionProject.Controllers
         }
 
         public ActionResult Show(int id) {
-            string url = "https://localhost:44344/api/bookdata/findbook/" + id;
+            string url = "bookdata/findbook/" + id;
             HttpResponseMessage response = client.GetAsync(url).Result;
             BookDto book = response.Content.ReadAsAsync<BookDto>().Result;
             return View(book);  
@@ -56,9 +57,9 @@ namespace PassionProject.Controllers
             //Debug.WriteLine(animal.AnimalName);
             //objective: add a new animal into our system using the API
             //curl -H "Content-Type:application/json" -d @animal.json https://localhost:44324/api/animaldata/addanimal 
-            string url = "https://localhost:44344/api/bookdata/addbook";
+            string url = "bookdata/addbook";
 
-
+            Debug.WriteLine(book);
             string jsonpayload = jss.Serialize(book);
             Debug.WriteLine(jsonpayload);
 
@@ -76,8 +77,40 @@ namespace PassionProject.Controllers
             }
         }
 
+
+
         public ActionResult New() { 
         return View();
+        }
+
+
+        // GET : book/deleteconfirm/{id}
+        public ActionResult DeleteConfirm(int id)
+        {
+            string url = "bookdata/findbook/" + id;
+            HttpResponseMessage response = client.GetAsync(url).Result;
+            BookDto selectedbook = response.Content.ReadAsAsync<BookDto>().Result;
+            return View(selectedbook);
+        }
+
+
+
+        [HttpPost]
+        public ActionResult Delete(int id)
+        {
+            string url = "bookdata/deletebook/" + id;
+            HttpContent content = new StringContent("");
+            content.Headers.ContentType.MediaType = "application/json";
+            HttpResponseMessage response = client.PostAsync(url, content).Result;
+
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("List");
+            }
+            else
+            {
+                return RedirectToAction("Error");
+            }
         }
         // GET: Book
         public ActionResult Index()
