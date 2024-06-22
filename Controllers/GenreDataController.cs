@@ -1,10 +1,13 @@
 ﻿using PassionProject.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Description;
 
 namespace PassionProject.Controllers
 {
@@ -48,7 +51,7 @@ namespace PassionProject.Controllers
             {
                 return NotFound();
             }
-            genre.GenreId = genredto.GenreId;
+            genredto.GenreId = genre.GenreId;
             genredto.Name = genre.Name;
             genredto.Description = genre.Description;
 
@@ -56,7 +59,44 @@ namespace PassionProject.Controllers
             return Ok(genredto);
         }
 
-        [HttpGet]
+
+
+        [ResponseType(typeof(Genre))]
+        [HttpPost]
+        [Route("api/genredata/addgenre")]
+        public IHttpActionResult AddGenre(Genre genre)
+        {
+            {
+
+                if (!ModelState.IsValid)
+                {
+                    Debug.WriteLine("Model state is invalid");
+                    foreach (var modelState in ModelState.Values)
+                    {
+                        foreach (var error in modelState.Errors)
+                        {
+                            Debug.WriteLine(error.ErrorMessage);
+                            if (error.Exception != null)
+                            {
+                                Debug.WriteLine(error.Exception.Message);
+                            }
+                        }
+                    }
+                    return BadRequest(ModelState);
+                }
+                Debug.WriteLine("Entering AddGenre method");
+
+                db.Genres.Add(genre);
+                Debug.WriteLine(genre.Name);
+                db.SaveChanges();
+                Debug.WriteLine("Genre added with ID: " + genre.Name);
+                return Ok(genre);
+            }
+
+        }
+
+        [ResponseType(typeof(Genre))]
+        [HttpPost]
         [Route("api/GenreData/DeleteGenre/{id}")]
         public IHttpActionResult DeleteGenre(int id)
         {
@@ -69,6 +109,41 @@ namespace PassionProject.Controllers
             db.SaveChanges();
             return Ok();
 
+        }
+
+        [ResponseType(typeof(void))]
+        [HttpPost]
+        [Route("api/GenreData/UpdateGenre/{id}")]
+        public IHttpActionResult UpdateGenre(int id, Genre genre)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (id != genre.GenreId)
+            {
+
+                return BadRequest();
+            }
+
+            db.Entry(genre).State = EntityState.Modified;
+
+
+
+            db.SaveChanges();
+
+            return StatusCode(HttpStatusCode.NoContent);
+        }
+
+        [HttpGet]
+        [ResponseType(typeof(int))]
+        [Route("api/genredata/countgenres")]
+        public IHttpActionResult CountGenres()
+        {
+            int genreCount = db.Genres.Count();
+            Debug.WriteLine(genreCount);
+            return Ok(genreCount);
         }
 
     }

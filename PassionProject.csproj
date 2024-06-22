@@ -226,9 +226,11 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AuthorController.cs" />
     <Compile Include="Controllers\AuthorDataController.cs" />
     <Compile Include="Controllers\BookController.cs" />
     <Compile Include="Controllers\BookDataController.cs" />
+    <Compile Include="Controllers\GenreController.cs" />
     <Compile Include="Controllers\GenreDataController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -267,6 +269,18 @@
     <Compile Include="Migrations\202406100704450_remake-db.Designer.cs">
       <DependentUpon>202406100704450_remake-db.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202406201857511_add-nav.cs" />
+    <Compile Include="Migrations\202406201857511_add-nav.Designer.cs">
+      <DependentUpon>202406201857511_add-nav.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202406202005451_edited-book.cs" />
+    <Compile Include="Migrations\202406202005451_edited-book.Designer.cs">
+      <DependentUpon>202406202005451_edited-book.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202406202214191_bookcs-edited.cs" />
+    <Compile Include="Migrations\202406202214191_bookcs-edited.Designer.cs">
+      <DependentUpon>202406202214191_bookcs-edited.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Author.cs" />
@@ -274,6 +288,12 @@
     <Compile Include="Models\Genre.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\ViewModels\CreateBook.cs" />
+    <Compile Include="Models\ViewModels\DetailBooks.cs" />
+    <Compile Include="Models\ViewModels\DetailsAuthor.cs" />
+    <Compile Include="Models\ViewModels\DetailsGenre.cs" />
+    <Compile Include="Models\ViewModels\ShowCount.cs" />
+    <Compile Include="Models\ViewModels\UpdateBook.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -352,10 +372,20 @@
     <Content Include="Views\Book\New.cshtml" />
     <Content Include="Views\Book\Show.cshtml" />
     <Content Include="Views\Book\DeleteConfirm.cshtml" />
+    <Content Include="Views\Book\Edit.cshtml" />
+    <Content Include="Views\Author\List.cshtml" />
+    <Content Include="Views\Author\Detail.cshtml" />
+    <Content Include="Views\Author\New.cshtml" />
+    <Content Include="Views\Author\DeleteConfirm.cshtml" />
+    <Content Include="Views\Author\Edit.cshtml" />
+    <Content Include="Views\Genre\List.cshtml" />
+    <Content Include="Views\Genre\Detail.cshtml" />
+    <Content Include="Views\Genre\New.cshtml" />
+    <Content Include="Views\Genre\Edit.cshtml" />
+    <Content Include="Views\Genre\DeleteConfirm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Author\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
@@ -408,6 +438,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202406100704450_remake-db.resx">
       <DependentUpon>202406100704450_remake-db.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202406201857511_add-nav.resx">
+      <DependentUpon>202406201857511_add-nav.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202406202005451_edited-book.resx">
+      <DependentUpon>202406202005451_edited-book.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202406202214191_bookcs-edited.resx">
+      <DependentUpon>202406202214191_bookcs-edited.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

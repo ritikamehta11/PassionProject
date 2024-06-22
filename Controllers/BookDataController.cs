@@ -13,7 +13,7 @@ using System.Data.Entity.Infrastructure;
 using System.Diagnostics;
 
 
-namespace PassionProject.Controllers
+namespace PassionProject.Controllers 
 {
     public class BookDataController : ApiController
     {
@@ -30,17 +30,18 @@ namespace PassionProject.Controllers
 
         [HttpGet]
         [Route("api/bookdata/listbooks")]
-     
+
         public List<BookDto> ListBooks()
         {
 
             List<Book> bookslist = db.Books.ToList();
             List<BookDto> bookdtos = new List<BookDto>();
-            foreach (Book book in bookslist) {
-            
-               BookDto bookdto = new BookDto();
-              bookdto.BookId = book.BookId;
-               bookdto.Title = book.Title;
+            foreach (Book book in bookslist)
+            {
+
+                BookDto bookdto = new BookDto();
+                bookdto.BookId = book.BookId;
+                bookdto.Title = book.Title;
                 bookdto.PublicationYear = book.PublicationYear;
 
                 if (book.Author != null)
@@ -73,10 +74,10 @@ namespace PassionProject.Controllers
 
 
                 bookdtos.Add(bookdto);
-               
-    }
-   return bookdtos;
-}
+
+            }
+            return bookdtos;
+        }
 
 
         ///// <summary>
@@ -86,17 +87,18 @@ namespace PassionProject.Controllers
         //// GET :api/BookData/FindBook/1
         [HttpGet]
         [Route("api/BookData/FindBook/{id}")]
-        public IHttpActionResult FindBook( int id) {
+        public IHttpActionResult FindBook(int id)
+        {
             Book book = db.Books.Find(id);
-            BookDto bookdto = new BookDto();    
+            BookDto bookdto = new BookDto();
             if (bookdto == null)
             {
                 return NotFound();
             }
-            bookdto.BookId = book.BookId;   
+            bookdto.BookId = book.BookId;
             bookdto.Title = book.Title;
-           
-            bookdto.PublicationYear= book.PublicationYear;
+
+            bookdto.PublicationYear = book.PublicationYear;
             bookdto.Author = new AuthorDto
             {
                 AuthorId = book.Author.AuthorId,
@@ -187,9 +189,8 @@ namespace PassionProject.Controllers
         /// <returns>list of books with a book removed</returns>
 
         // POST : api/BookData/DeleteBook/{id}
-
-        [HttpGet]
-        [Route("api/BookData/DeleteBook/{id}")]
+        [ResponseType(typeof(Book))]
+        [HttpPost]
         public IHttpActionResult DeleteBook(int id)
         {
             Book book = db.Books.Find(id);
@@ -197,26 +198,19 @@ namespace PassionProject.Controllers
             {
                 return NotFound();
             }
+
             db.Books.Remove(book);
             db.SaveChanges();
+
             return Ok();
-
         }
-
-
-
-
-
-
-
-
 
 
 
         [ResponseType(typeof(void))]
         [HttpPost]
         [Route("api/bookdata/updatebook/{id}")]
-        public IHttpActionResult UpdateBook(int id, Book  book)
+        public IHttpActionResult UpdateBook(int id, Book book)
         {
             if (!ModelState.IsValid)
             {
@@ -231,16 +225,169 @@ namespace PassionProject.Controllers
 
             db.Entry(book).State = EntityState.Modified;
 
-            
-            
+
+
             db.SaveChanges();
-            
+
             return StatusCode(HttpStatusCode.NoContent);
         }
 
 
 
+        /// <summary>
+        /// Gathers information about books related to a particular author
+        /// </summary>
+        /// <returns>
+        /// HEADER: 200 (OK)
+        /// CONTENT: all books in the database, including their associated genre that match to a particular author id
+        /// </returns>
+        /// <param name="id">Author ID.</param>
+        /// <example>
+        /// GET: api/BookData/ListBooksForAuthor/1
+        /// </example>
+        [HttpGet]
+        [ResponseType(typeof(BookDto))]
+        [Route("api/bookdata/listbooksforauthor/{id}")]
+        public IHttpActionResult ListBooksForAuthor(int id)
+        {
+            //SQL equivalent:
+            //select books.*, authorbooks.* from books INNER JOIN 
+            //authorbooks on books.authorid = author.authorid
+            //where authorbooks.authorid={AuthorID}
+
+            //all books that have authors which match with our ID
+            /* List<Book> Books = db.Books.Where(
+                 book => book.AuthorId.Any(
+
+                     author => author.AuthorId == id)
+                 ).ToList();*/
 
 
-    } 
+            var Books = db.Books
+        .Where(b => b.AuthorId == id)
+        .ToList();
+            List<BookDto> BookDtos = new List<BookDto>();
+
+            Debug.WriteLine(Books);
+            Debug.WriteLine(id);
+
+
+            foreach (Book book in Books)
+            {
+
+                BookDto bookdto = new BookDto();
+                bookdto.BookId = book.BookId;
+                bookdto.Title = book.Title;
+                bookdto.PublicationYear = book.PublicationYear;
+                bookdto.Author = new AuthorDto
+                {
+                    AuthorId = book.Author.AuthorId,
+                    Bio = book.Author.Bio,
+
+                    Name = book.Author.Name
+
+                };
+                if (book.Genre != null)
+                {
+                    // Only access properties if Genre is not null
+                    bookdto.Genre = new GenreDto
+                    {
+                        GenreId = book.Genre.GenreId,
+                        Name = book.Genre.Name,
+                        Description = book.Genre.Description,
+                    };
+                }
+
+                BookDtos.Add(bookdto);
+}Debug.WriteLine(BookDtos);
+                return Ok(BookDtos);
+            
+
+
+
+
+
+        }
+
+
+
+        [HttpGet]
+        [ResponseType(typeof(BookDto))]
+        [Route("api/bookdata/listbooksforgenre/{id}")]
+        public IHttpActionResult ListBooksForGenre(int id)
+        {
+            //SQL equivalent:
+            //select books.*, authorbooks.* from books INNER JOIN 
+            //authorbooks on books.authorid = author.authorid
+            //where authorbooks.authorid={AuthorID}
+
+            //all books that have authors which match with our ID
+            /* List<Book> Books = db.Books.Where(
+                 book => book.AuthorId.Any(
+
+                     author => author.AuthorId == id)
+                 ).ToList();*/
+
+
+            var Books = db.Books
+        .Where(b => b.GenreId == id)
+        .ToList();
+            List<BookDto> BookDtos = new List<BookDto>();
+
+            Debug.WriteLine(Books);
+            Debug.WriteLine(id);
+
+
+            foreach (Book book in Books)
+            {
+
+                BookDto bookdto = new BookDto();
+                bookdto.BookId = book.BookId;
+                bookdto.Title = book.Title;
+                bookdto.PublicationYear = book.PublicationYear;
+                bookdto.Author = new AuthorDto
+                {
+                    AuthorId = book.Author.AuthorId,
+                    Bio = book.Author.Bio,
+
+                    Name = book.Author.Name
+
+                };
+                if (book.Genre != null)
+                {
+                    // Only access properties if Genre is not null
+                    bookdto.Genre = new GenreDto
+                    {
+                        GenreId = book.Genre.GenreId,
+                        Name = book.Genre.Name,
+                        Description = book.Genre.Description,
+                    };
+                }
+
+                BookDtos.Add(bookdto);
+            }
+            Debug.WriteLine(BookDtos);
+            return Ok(BookDtos);
+
+
+
+
+
+
+        }
+
+
+        [HttpGet]
+        [ResponseType(typeof(int))]
+        [Route("api/bookdata/countbooks")]
+        public IHttpActionResult CountBooks()
+        {
+            int bookCount = db.Books.Count();
+            Debug.WriteLine(bookCount);
+            return Ok(bookCount);
+        }
+    }
+
+
+
 }

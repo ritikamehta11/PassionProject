@@ -1,4 +1,4 @@
-﻿@model PassionProject.Models.BookDto
+﻿@model PassionProject.Models.GenreDto
 @{
     ViewBag.Title = "DeleteConfirm";
 }
@@ -6,31 +6,32 @@
 
 <style>
     h5 {
-        
         color: #274060;
-        text-transform:capitalize;
+        text-transform: capitalize;
     }
+
     h4 {
         color: darkslategrey;
         text-transform: capitalize;
     }
+
     p {
         text-transform: capitalize;
     }
+
     .btn-primary {
         background-color: #274060;
         color: #D0DB97;
         border: 1px solid transparent;
         padding: 0.3em 0.8em;
-        margin-top: 1em; 
+        margin-top: 1em;
         text-transform: capitalize;
-    } 
+    }
 </style>
-<h5>Delete Book?</h5>
-<h4>@Model.Title</h4>
-<p>Publication Year : @Model.PublicationYear</p>
-<p>Author: @Model.Author.Name</p>
-<form action="/book/delete/@Model.BookId" method="POST">
-    <button class="btn-primary" type="submit" value="Delete Book">Delete book</button>
+<h2>Delete Genre</h2>
+<h4>@Model.Name </h4>
+<p>@Model.Description</p>
+<form action="/Genre/delete/@Model.GenreId" method="POST">
+    <button class="btn-primary" type="submit" value="Delete Genre">Delete Genre</button>
 
-    </form> 
+</form> 

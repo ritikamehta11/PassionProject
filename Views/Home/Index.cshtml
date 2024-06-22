@@ -1,9 +1,18 @@
-﻿@{
+﻿@model PassionProject.Models.ViewModels.ShowCount
+@{
     ViewBag.Title = "Home Page";
 }
 
+
+<style>
+    .col-3{
+        border:1px solid grey;
+        margin-right:1em;
+
+    }
+</style>
 <main>
-    <section class="row" aria-labelledby="aspnetTitle">
+    @*<section class="row" aria-labelledby="aspnetTitle">
         <h1 id="title">ASP.NET</h1>
         <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
         <p><a href="https://asp.net" class="btn btn-primary btn-md">Learn more &raquo;</a></p>
@@ -29,5 +38,50 @@
             <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
             <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
         </section>
+    </div>*@
+
+     
+    <h2 id="main-heading">Library Management System</h2>
+    <div class="stats row">
+
+        <div class="col-3">
+            Total Books : <span>@Model.totalBooks</span>
+            <br />
+            <div class="btn"><a href="./Book/list">Show All Books</a></div>
+        </div>
+
+        <div class="col-3">
+            Total Authors : <span>@Model.totalAuthors</span>
+            <br />
+            <div class="btn"><a href="./Author/list">Show All Author</a></div>
+        </div>
+        <div class="col-3">
+            Total Genres : <span>@Model.totalGenres</span>
+            <br />
+            <div class="btn"><a href="./Genre/list">Show All Genre</a></div>
+        </div>
+
+
+
+
     </div>
+
+    
+
+
+    </main>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </main>

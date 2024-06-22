@@ -30,7 +30,7 @@ namespace PassionProject.Models
         public int GenreId { get; set; }
         public virtual Genre Genre { get; set; }
 
-
+        
 
     }
 

@@ -3,6 +3,7 @@
     margin-top: 15px;
     padding-left: 15px;
     padding-right: 15px;
+    background-color:pink;
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
@@ -17,4 +18,22 @@ input,
 select,
 textarea {
     max-width: 280px;
+}
+ 
+
+.flex-nav{
+    display: flex;
+    width: 60%;
+   
+}
+
+h2{
+    color: deeppink;
+
+}
+.book-title:hover{
+    color:pink;
+}
+.book-title a{
+    text-decoration: none;
 }
